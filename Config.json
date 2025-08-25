@@ -1,137 +1,190 @@
 {
-  "dns": {
-    "hosts": {
-      "domain:googleapis.cn": "googleapis.com"
-    },
-    "servers": [
-      "1.1.1.1"
-    ]
-  },
+  "log": {},
   "inbounds": [
-    {
-      "listen": "127.0.0.1",
-      "port": 10808,
-      "protocol": "socks",
-      "settings": {
-        "auth": "noauth",
-        "udp": true,
-        "userLevel": 8
-      },
-      "sniffing": {
-        "destOverride": [
-          "http",
-          "tls"
-        ],
-        "enabled": false
-      },
-      "tag": "socks"
-    },
-    {
-      "listen": "127.0.0.1",
-      "port": 10809,
-      "protocol": "http",
-      "settings": {
-        "userLevel": 8
-      },
-      "tag": "http"
-    },
-    {
-      "listen": "127.0.0.1",
-      "port": 1053,
-      "protocol": "dokodemo-door",
-      "settings": {
-        "address": "1.1.1.1",
-        "network": "tcp,udp",
-        "port": 53
-      },
-      "tag": "dns-in"
-    }
-  ],
-  "log": {
-    "loglevel": "warning"
-  },
-  "outbounds": [
-    {
-      "mux": {
-        "concurrency": 8,
-        "enabled": false
-      },
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "zula.ir",
-            "port": 2096,
-            "users": [
-              {
-                "encryption": "none",
-                "flow": "",
-                "id": "0ba6eeb7-2b17-4c4f-9890-ffd9f01c1e69",
-                "level": 8,
-                "security": "auto"
-              }
-            ]
-          }
-        ]
-      },
-      "streamSettings": {
-        "network": "ws",
-        "security": "tls",
-        "tlsSettings": {
-          "allowInsecure": false,
-          "fingerprint": "chrome",
-          "publicKey": "",
-          "serverName": "logan.k-ninja-j.info",
-          "shortId": "",
-          "show": false,
-          "spiderX": ""
+      {
+        "listen": "127.0.0.1",
+        "settings": {
+          "ota": true,
+          "password": "123456",
+          "level": 8,
+          "network": "tcp,udp",
+          "udp": false,
+          "method": "chacha20-ietf-poly1305"
         },
-        "wsSettings": {
-          "headers": {
-            "Host": "logan.k-ninja-j.info"
-          },
-          "path": "/chill"
+        "protocol": "shadowsocks",
+        "port": 49386,
+        "tag": "socks",
+        "sniffing": {
+          "domainsExcluded": [
+            "courier.push.apple.com"
+          ],
+          "destOverride": [
+            "tls",
+            "http",
+            "quic"
+          ],
+          "enabled": true
         }
       },
-      "tag": "proxy"
-    },
-    {
-      "protocol": "freedom",
-      "settings": {},
-      "tag": "direct"
-    },
-    {
-      "protocol": "blackhole",
-      "settings": {
-        "response": {
-          "type": "http"
+      {
+        "protocol": "socks",
+        "tag": "directSocks",
+        "settings": {
+          "userLevel": 8,
+          "auth": "noauth",
+          "udp": true
+        },
+        "listen": "127.0.0.1",
+        "port": 1087
+      },
+      {
+        "port": 49387,
+        "protocol": "dokodemo-door",
+        "tag": "api",
+        "listen": "[::1]",
+        "settings": {
+          "address": "[::1]"
         }
       },
-      "tag": "block"
-    },
-    {
-      "protocol": "dns",
-      "tag": "dns-out"
-    }
-  ],
-  "routing": {
-    "domainStrategy": "IPIfNonMatch",
-    "rules": [
       {
-        "inboundTag": [
-          "dns-in"
-        ],
-        "outboundTag": "proxy",
-        "type": "field"
-      },
-      {
-        "ip": [
-          "1.1.1.1"
-        ],
-        "outboundTag": "proxy",
-        "port": "53",
-        "type": "field"
+        "port": 49388,
+        "protocol": "dokodemo-door",
+        "tag": "inDns",
+        "listen": "127.0.0.1",
+        "settings": {
+          "address": "8.8.8.8",
+          "timeout": 10,
+          "userLevel": 0,
+          "network": "tcp,udp",
+          "port": 53
+        }
       }
-    ]
-  }
+    ],
+  "outbounds": [
+      {
+        "protocol": "vmess",
+        "settings": {
+          "vnext": [
+            {
+              "port": 6502,
+              "address": "de.vi-netgo.com",
+              "users": [
+                {
+                  "email": "",
+                  "security": "aes-128-gcm",
+                  "alterId": 0,
+                  "id": "49d26ccf-c9fd-472f-8d93-bd8d9b0e33cf",
+                  "level": 8
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "tcpSettings": {
+            "header": {
+              "type": "none"
+            }
+          },
+          "network": "tcp"
+        },
+        "tag": "proxy",
+        "mux": {
+          "concurrency": 50,
+          "xudpConcurrency": 128,
+          "xudpProxyUDP443": "allow",
+          "enabled": false
+        }
+      },
+      {
+        "protocol": "freedom",
+        "settings": {
+          "userLevel": 8,
+          "fragment": {
+            "packets": "tlshello",
+            "length": "80-250",
+            "interval": "10-100"
+          }
+        },
+        "streamSettings": {
+          "sockopt": {
+            "tcpNoDelay": true
+          }
+        },
+        "tag": "fragment"
+      }
+    ],
+  "api": {
+      "tag": "api",
+      "services": [
+        "StatsService"
+      ]
+    },
+  "dns": {
+      "disableCache": true,
+      "disableFallbackIfMatch": true,
+      "servers": [
+        {
+          "skipFallback": false,
+          "address": "8.8.8.8"
+        }
+      ],
+      "disableFallback": true,
+      "tag": "dnsQuery",
+      "queryStrategy": "UseIP"
+    },
+  "stats": {},
+  "routing": {
+        "balancers": [],
+        "domainStrategy": "AsIs",
+        "rules": [
+            {
+              "type": "field",
+              "outboundTag": "api",
+              "inboundTag": [
+                "api"
+              ]
+            },
+            {
+              "type": "field",
+              "outboundTag": "outDns",
+              "inboundTag": [
+                "inDns"
+              ]
+            },
+            {
+              "type": "field",
+              "outboundTag": "proxy",
+              "inboundTag": [
+                "dnsQuery"
+              ]
+            },
+            {
+              "outboundTag": "direct",
+              "type": "field",
+              "inboundTag": [
+                "directSocks"
+              ]
+            }
+          ]
+      },
+  "policy": {
+        "levels": {
+          "8": {
+            "uplinkOnly": 1,
+            "connIdle": 30,
+            "downlinkOnly": 1,
+            "statsUserUplink": false,
+            "bufferSize": 0,
+            "handshake": 4,
+            "statsUserDownlink": false
+          }
+        },
+        "system": {"statsOutboundDownlink": true,
+          "statsOutboundUplink": true,
+          "statsInboundDownlink": true,
+          "statsInboundUplink": true
+        }
+      },
+  "transport": {}
 }

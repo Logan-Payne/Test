@@ -21,7 +21,7 @@
             "port": 443,
             "users": [
               {
-                "id": "aa0dc4aa-94e7-4b2b-9d08-329b8e39357c",
+                "id": "d7259839-6c86-4f45-8cb2-008086186a0c",
                 "encryption": "none"
               }
             ]
@@ -38,8 +38,7 @@
         "wsSettings": {
           "headers": {
             "Host": "p9999.lezzaelio.ir"
-          },
-          "path": "/"
+          }
         }
       }
     }

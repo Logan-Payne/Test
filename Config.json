@@ -1,76 +1,188 @@
-{\n" +
-                "  \"log\": {\n" +
-                "    \"loglevel\": \"warning\"\n" +
-                "  },\n" +
-                "  \"inbounds\": [\n" +
-                "    {\n" +
-                "      \"protocol\": \"socks\",\n" +
-                "      \"port\": 51727,\n" +
-                "      \"listen\": \"127.0.0.1\",\n" +
-                "      \"sniffing\": {\n" +
-                "        \"enabled\": true,\n" +
-                "        \"destOverride\": [\"tls\", \"http\", \"quic\"],\n" +
-                "        \"domainsExcluded\": [\"courier.push.apple.com\"]\n" +
-                "      },\n" +
-                "      \"tag\": \"socks\",\n" +
-                "      \"settings\": {\n" +
-                "        \"auth\": \"noauth\",\n" +
-                "        \"udp\": true,\n" +
-                "        \"userLevel\": 8\n" +
-                "      }\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"protocol\": \"socks\",\n" +
-                "      \"port\": 1087,\n" +
-                "      \"listen\": \"127.0.0.1\",\n" +
-                "      \"tag\": \"directSocks\",\n" +
-                "      \"settings\": {\n" +
-                "        \"auth\": \"noauth\",\n" +
-                "        \"udp\": true,\n" +
-                "        \"userLevel\": 8\n" +
-                "      }\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"protocol\": \"dokodemo-door\",\n" +
-                "      \"port\": 51728,\n" +
-                "      \"listen\": \"[::1]\",\n" +
-                "      \"tag\": \"api\",\n" +
-                "      \"settings\": {\n" +
-                "        \"address\": \"[::1]\"\n" +
-                "      }\n" +
-                "    }\n" +
-                "  ],\n" +
-                "  \"outbounds\": [\n" +
-                "    {\n" +
-                "      \"protocol\": \"vless\",\n" +
-                "      \"tag\": \"proxy\",\n" +
-                "      \"settings\": {\n" +
-                "        \"vnext\": [\n" +
-                "          {\n" +
-                "            \"address\": \"pov.iran-mehrbu.ir\",\n" +
-                "            \"port\": 443,\n" +
-                "            \"users\": [\n" +
-                "              {\n" +
-                "                \"id\": \"d7259839-6c86-4f45-8cb2-008086186a0c\",\n" +
-                "                \"encryption\": \"none\",\n" +
-                "                \"flow\": \"\",\n" +
-                "                \"level\": 8\n" +
-                "              }\n" +
-                "            ]\n" +
-                "          }\n" +
-                "        ]\n" +
-                "      },\n" +
-                "      \"streamSettings\": {\n" +
-                "        \"network\": \"ws\",\n" +
-                "        \"security\": \"tls\",\n" +
-                "        \"tlsSettings\": {\n" +
-                "          \"serverName\": \"p9999.lezzaelio.ir\",\n" +
-                "          \"fingerprint\": \"chrome\",\n" +
-                "          \"allowInsecure\": false,\n" +
-                "          \"alpn\": [\"h2\", \"http/1.1\"]\n" +
-                "        },\n" +
-                "        \"wsSettings\": {\n" +
-                "          \"path\": \"/\",\n" +
+{
+  "log": {
+    "loglevel": "warning"
+  },
+  "inbounds": [
+    {
+      "protocol": "socks",
+      "port": 51727,
+      "listen": "127.0.0.1",
+      "sniffing": {
+        "enabled": true,
+        "destOverride": ["tls", "http", "quic"],
+        "domainsExcluded": ["courier.push.apple.com"]
+      },
+      "tag": "socks",
+      "settings": {
+        "auth": "noauth",
+        "udp": true,
+        "userLevel": 8
+      }
+    },
+    {
+      "protocol": "socks",
+      "port": 1087,
+      "listen": "127.0.0.1",
+      "tag": "directSocks",
+      "settings": {
+        "auth": "noauth",
+        "udp": true,
+        "userLevel": 8
+      }
+    },
+    {
+      "protocol": "dokodemo-door",
+      "port": 51728,
+      "listen": "[::1]",
+      "tag": "api",
+      "settings": {
+        "address": "[::1]"
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "vless",
+      "tag": "proxy",
+      "settings": {
+        "vnext": [
+          {
+            "address": "YOUR_SERVER_IP_OR_DOMAIN",
+            "port": 443,
+            "users": [
+              {
+                "id": "YOUR_UUID_HERE",
+                "encryption": "none",
+                "flow": "",
+                "level": 8
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "tlsSettings": {
+          "serverName": "YOUR_SNI_OR_HOST",
+          "fingerprint": "chrome",
+          "allowInsecure": false,
+          "alpn": ["h2", "http/1.1"]
+        },
+        "wsSettings": {
+          "path": "/",
+          "headers": {
+            "Host": "YOUR_SNI_OR_HOST"
+          }
+        }
+      },
+      "mux": {
+        "enabled": false,
+        "concurrency": 50,
+        "xudpProxyUDP443": "allow",
+        "xudpConcurrency": 128
+      }
+    },
+    {
+      "protocol": "freedom",
+      "tag": "direct",
+      "settings": {
+        "domainStrategy": "UseIP"
+      },
+      "streamSettings": {
+        "sockopt": {
+          "tcpNoDelay": true
+        }
+      }
+    },
+    {
+      "protocol": "freedom",
+      "tag": "fragment",
+      "settings": {
+        "fragment": {
+          "packets": "tlshello",
+          "length": "80-250",
+          "interval": "10-100"
+        },
+        "userLevel": 8
+      },
+      "streamSettings": {
+        "sockopt": {
+          "tcpNoDelay": true
+        }
+      }
+    }
+  ],
+  "api": {
+    "tag": "api",
+    "services": ["StatsService"]
+  },
+  "dns": {
+    "servers": [
+      {
+        "address": "8.8.8.8",
+        "skipFallback": false
+      }
+    ],
+    "disableFallback": true,
+    "disableFallbackIfMatch": true,
+    "tag": "dnsQuery",
+    "queryStrategy": "UseIP",
+    "disableCache": true,
+    "hosts": {
+      "cloudflare-dns.com": ["104.16.248.249", "104.16.249.249", "2606:4700::6810:f8f9", "2606:4700::6810:f9f9"],
+      "dns.cloudflare.com": ["104.16.132.229", "104.16.133.229", "2606:4700::6810:84e5", "2606:4700::6810:85e5"],
+      "dot.pub": ["1.12.12.12", "120.53.53.53"],
+      "common.dot.dns.yandex.net": ["77.88.8.8", "77.88.8.1", "2a02:6b8::feed:0ff", "2a02:6b8:0:1::feed:0ff"],
+      "dns.quad9.net": ["9.9.9.9", "149.112.112.112", "2620:fe::fe", "2620:fe::9"],
+      "one.one.one.one": ["1.1.1.1", "1.0.0.1", "2606:4700:4700::1111", "2606:4700:4700::1001"],
+      "dns.alidns.com": ["223.5.5.5", "223.6.6.6", "2400:3200::1", "2400:3200:baba::1"],
+      "dns.google": ["8.8.8.8", "8.8.4.4", "2001:4860:4860::8888", "2001:4860:4860::8844"]
+    }
+  },
+  "stats": {},
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "type": "field",
+        "inboundTag": ["api"],
+        "outboundTag": "api"
+      },
+      {
+        "type": "field",
+        "inboundTag": ["dnsQuery"],
+        "outboundTag": "proxy"
+      },
+      {
+        "type": "field",
+        "inboundTag": ["directSocks"],
+        "outboundTag": "direct"
+      }
+    ],
+    "balancers": []
+  },
+  "policy": {
+    "levels": {
+      "8": {
+        "handshake": 4,
+        "connIdle": 30,
+        "uplinkOnly": 1,
+        "downlinkOnly": 1,
+        "bufferSize": 0,
+        "statsUserUplink": false,
+        "statsUserDownlink": false
+      }
+    },
+    "system": {
+      "statsInboundUplink": true,
+      "statsInboundDownlink": true,
+      "statsOutboundUplink": true,
+      "statsOutboundDownlink": true
+    }
+  },
+  "transport": {}
+}                "          \"path\": \"/\",\n" +
                 "          \"headers\": {\n" +
                 "            \"Host\": \"p9999.lezzaelio.ir\"\n" +
                 "          }\n" +

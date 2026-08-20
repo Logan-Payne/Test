@@ -45,7 +45,7 @@
         "1.12.12.12",
         "120.53.53.53"
       ],
-      "frvip.beprivate.online" : "217.182.205.209",
+      "mv1.multipubg.com" : "31.77.172.55",
       "one.one.one.one" : [
         "1.1.1.1",
         "1.0.0.1",
@@ -57,12 +57,12 @@
     "servers" : [
       "1.1.1.1"
     ],
-    "tag" : "745C2E9A-B59C-482B-A9B8-24DCF5573EFC"
+    "tag" : "9CC0728D-5819-4EAC-9333-9F58DD532B26"
   },
   "inbounds" : [
     {
       "listen" : "127.0.0.1",
-      "port" : 52758,
+      "port" : 55770,
       "protocol" : "socks",
       "settings" : {
         "auth" : "noauth",
@@ -83,7 +83,7 @@
     },
     {
       "listen" : "127.0.0.1",
-      "port" : 52759,
+      "port" : 55771,
       "protocol" : "socks",
       "settings" : {
         "auth" : "noauth",
@@ -105,22 +105,24 @@
         "concurrency" : -1,
         "enabled" : false
       },
-      "protocol" : "TROJAN",
+      "protocol" : "VMESS",
       "settings" : {
-        "servers" : [
+        "vnext" : [
           {
-            "address" : "frvip.beprivate.online",
-            "isKeyFile" : false,
-            "level" : 8,
-            "ota" : false,
-            "password" : "7d907613-aacd-3f47-9a2b-0fb97832ecf4",
-            "port" : 8888
+            "address" : "mv1.multipubg.com",
+            "port" : 8880,
+            "users" : [
+              {
+                "id" : "07ddcc45-6a27-441b-8e70-dd7db0fd0c43",
+                "level" : 8,
+                "security" : "auto"
+              }
+            ]
           }
         ]
       },
       "streamSettings" : {
         "network" : "tcp",
-        "security" : "tls",
         "sockopt" : {
           "domainStrategy" : "UseIP",
           "happyEyeballs" : {
@@ -134,11 +136,6 @@
           "header" : {
             "type" : "none"
           }
-        },
-        "tlsSettings" : {
-          "allowInsecure" : false,
-          "serverName" : "frvip.beprivate.online",
-          "show" : false
         }
       },
       "tag" : "proxy"
@@ -180,7 +177,7 @@
       "statsOutboundUplink" : true
     }
   },
-  "remarks" : "🇫🇷 France-VIP 🛡 Trojan",
+  "remarks" : "📆 1405/08/13 ( 75 days )",
   "routing" : {
     "balancers" : [
 

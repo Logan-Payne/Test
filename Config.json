@@ -72,15 +72,15 @@
         "security": "tls",
         "tlsSettings": {
           "allowInsecure": true,
-          "serverName": "rnosh.darkbirdbase-balii.sbs",
+          "serverName": "bonwx.blueorbit-balii.sbs",
           "alpn": [],
-          "fingerprint": "chrome",
+          "fingerprint": "firefox",
           "show": false
         },
         "wsSettings": {
           "path": "/wait",
           "headers": {
-            "Host": "rnosh.darkbirdbase-balii.sbs"
+            "Host": "bonwx.blueorbit-balii.sbs"
           }
         },
         "sockopt": {
@@ -103,9 +103,9 @@
       "settings": {
         "domainStrategy": "AsIs",
         "fragment": {
-          "packets": "tlshello",
-          "length": "1",
-          "interval": "0"
+          "packets": "1",
+          "length": "20-40",
+          "interval": "2-4"
         }
       },
       "streamSettings": {

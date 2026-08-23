@@ -72,7 +72,7 @@
         "security": "tls",
         "tlsSettings": {
           "allowInsecure": true,
-          "serverName": "bonwx.blueorbit-balii.sbs",
+          "serverName": "njwaf.fastwolflab-balii.sbs",
           "alpn": [],
           "fingerprint": "firefox",
           "show": false
@@ -80,7 +80,7 @@
         "wsSettings": {
           "path": "/wait",
           "headers": {
-            "Host": "bonwx.blueorbit-balii.sbs"
+            "Host": "njwaf.fastwolflab-balii.sbs"
           }
         },
         "sockopt": {
